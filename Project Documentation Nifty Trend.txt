@@ -1,0 +1,149 @@
+# Project Documentation: Nifty Trend Indicator
+
+## Overview
+We are building a **Nifty Trend Prediction System** to classify daily Nifty market movements into **Up, Down, or Sideways**, and also to assess the **strength of the trend** (scaled 1–100). The system combines **machine learning models (LightGBM)** with **technical indicators** as features, and follows a rigorous **walk-forward evaluation** process to simulate real trading conditions.
+
+---
+
+## Project Structure
+```
+nifty-trend/
+│
+├── data/
+│   ├── raw/                 # Original CSV data (nifty_daily.csv)
+│   ├── processed/           # Engineered features + labels (parquet files)
+│
+├── models/                  # Trained LightGBM models
+│
+├── artifacts/               # Evaluation outputs (predictions, feature importances)
+│
+├── src/                     # Core source code
+│   ├── features.py          # Generates technical indicators
+│   ├── labeling.py          # Creates labels and trend strength
+│   ├── train.py             # Trains classifier & regressor
+│   ├── predict.py           # Predicts latest trend/strength
+│   ├── diagnose_prediction.py # Debugs internal model outputs
+│   ├── walkforward_eval.py  # Walk-forward evaluation (imbalanced)
+│   ├── walkforward_eval_balanced.py # Walk-forward with SMOTE
+│   ├── inspect_preds.py     # Inspect predictions CSV
+│   ├── inspect_importances.py # Inspect feature importances
+│
+├── requirements.txt         # Dependencies
+└── README.md (to be added)
+```
+
+---
+
+## Data Pipeline
+
+1. **Raw Data**  
+   - Source: Historical Nifty OHLCV data in CSV format.  
+   - Path: `data/raw/nifty_daily.csv`  
+   - Coverage: 2010 to present (extendable back to 1995 if available).
+
+2. **Feature Engineering (`features.py`)**  
+   - Reads raw CSV.  
+   - Generates 24+ technical indicators including: 
+     - Returns: `ret_1`, `ret_5`, `logret_1`
+     - Moving averages: `ema_10`, `ema_20`, `ema_50`, `sma_50`
+     - Momentum: `rsi_14`, `roc_5`, `stoch_oscillator`
+     - Volatility: `atr_14`, `bollinger_band_width`, `bb_pct`
+     - Trend strength: `adx_14`, `slope_10`, `slope_20`
+     - Volume-related: `volume`, `volume_sma_10`, `volume_ratio`
+     - Cross signals: `ema_cross_diff`, `dist_ema10`, `dist_ema50`
+   - Output saved to: `data/processed/features_daily.parquet`.
+
+3. **Labeling (`labeling.py`)**  
+   - Converts raw prices into classification labels: 
+     - `-1` = Down
+     - `0` = Sideways
+     - `1` = Up
+   - Computes **strength (0–1)** based on normalized returns.  
+   - Output saved to: `data/processed/labeled_daily.parquet`.
+
+---
+
+## Modeling
+
+1. **Classification Model (LightGBM)**  
+   - Objective: Predict `label_class` (up/down/side).  
+   - Metrics: Precision, Recall, F1-score, Accuracy.  
+   - Handles class imbalance using **SMOTE** in balanced variant.
+
+2. **Regression Model (LightGBM)**  
+   - Objective: Predict continuous **trend strength** (0–1).  
+   - Metrics: MAE, R².
+
+3. **Blended Prediction**  
+   - Classification result determines direction.  
+   - Regression score translates into **strength (1–100)**.  
+   - Combined → `Weak/Strong Up, Weak/Strong Down, Sideways`.
+
+---
+
+## Evaluation
+
+1. **Train/Test Split (`train.py`)**  
+   - Trains classifier and regressor.  
+   - Saves models to `models/`.  
+   - Prints classification report and regression metrics.
+
+2. **Walk-Forward Evaluation (`walkforward_eval.py` / `walkforward_eval_balanced.py`)**  
+   - Simulates daily predictions from a start date to an end date.  
+   - Retrains periodically (`retrain_every` days).  
+   - Produces accuracy, classification report, and feature importances.  
+   - Saves outputs to `artifacts/`.
+
+3. **Inspection Scripts**  
+   - `inspect_preds.py` → Examines walk-forward predictions (head, counts, crosstab).  
+   - `inspect_importances.py` → Shows ranked feature importances.
+
+---
+
+## Current Results (Sample)
+- Accuracy (walk-forward): ~74–76%.  
+- Class imbalance observed: model heavily predicts **Sideways**.  
+- Top features: `ret_1`, `ret_5`, `bollinger_band_width`, `adx_14`, `slope_10`, `stoch_oscillator`.
+
+---
+
+## Visual Diagram
+
+### Data Flow & Model Pipeline
+```
+Raw Data (CSV) → Feature Engineering → Processed Features
+   ↓                                ↓
+ Labeling (classes + strength)      ↓
+   ↓                                ↓
+ Labeled Data → Train/Test Split → LightGBM Models
+   ↓                                ↓
+ Walk-Forward Evaluation → Predictions + Feature Importances
+   ↓                                ↓
+ Final Output: Up/Down/Sideways + Weak/Strong Strength (1–100)
+```
+
+---
+
+## Next Steps
+1. Improve **class balance** handling (SMOTE, class weights, focal loss).  
+2. Tune **labeling thresholds** for Sideways vs Up/Down.  
+3. Refine **strength mapping** into categories: 
+   - Weak Up / Strong Up  
+   - Weak Down / Strong Down  
+   - Sideways
+4. Backtest predictions with actual market data for validation.  
+5. Extend to **intra-day timeframe** after daily pipeline stabilizes.  
+
+---
+
+✅ This document now includes **code structure, pipeline details, and a visual diagram** of the project.
+
+Here’s the **correct execution flow** for your project:
+
+1. **features.py** → Generate technical features from raw `nifty_daily.csv`.
+2. **labeling.py** → Create labels (`UP`, `DOWN`, `SIDE`) + trend strength (0–1).
+3. **train.py** → Train classification + regression models (LightGBM).
+4. **predict.py** → Run prediction for the latest date in the dataset.
+5. **walkforward_eval_balanced.py** → Perform walk-forward evaluation with SMOTE balancing.
+6. **inspect_preds.py** → Inspect walk-forward prediction results (true vs predicted, cross-tab).
+7. **inspect_importances.py** → Inspect feature importance ranking.

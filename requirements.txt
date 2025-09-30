@@ -1,0 +1,14 @@
+pandas>=1.5
+numpy>=1.24
+yfinance>=0.2.18
+ta>=0.11.0
+lightgbm>=3.3
+scikit-learn>=1.1
+matplotlib>=3.5
+joblib>=1.2
+onnx>=1.14
+onnxruntime>=1.16
+onnxmltools>=1.6
+onnxconverter-common>=1.13.0
+skl2onnx>=1.14
+optuna>=3.0   # optional (for hyperparam tuning)
