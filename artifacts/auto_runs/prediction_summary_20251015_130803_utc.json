@@ -1,0 +1,51 @@
+{
+  "run_ts_utc": "2025-10-15T13:08:03.893703",
+  "steps": [
+    {
+      "name": "update_data",
+      "script": "D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\update_data.py",
+      "ok": true,
+      "returncode": 0,
+      "stdout": "Loaded existing data. Last available date: 2025-10-15\nFetching new data from 2025-10-16 to 2025-10-16 ...\nNo new data available.\n",
+      "stderr": "$^NSEI: possibly delisted; no price data found  (1d 2025-10-16 -> 2025-10-16) (Yahoo error = \"Data doesn't exist for startDate = 1760553000, endDate = 1760553000\")\n",
+      "elapsed_sec": 2.8881680965423584
+    },
+    {
+      "name": "features",
+      "script": "D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\features.py",
+      "ok": true,
+      "returncode": 0,
+      "stdout": "Reading raw CSV: D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\..\\data\\raw\\nifty_daily.csv\nTotal rows read: 4435\nDate range: 2007-09-17 00:00:00 to 2025-10-15 00:00:00\nFeatures saved to D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\..\\data\\processed\\features_daily.parquet \u2014 rows: 4435\nPrediction-safe features saved to D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\..\\data\\processed\\features_safe.parquet \u2014 rows: 4435\n",
+      "stderr": "",
+      "elapsed_sec": 1.4740619659423828
+    },
+    {
+      "name": "features_context",
+      "script": "D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\features_context.py",
+      "ok": true,
+      "returncode": 0,
+      "stdout": "Reading base features: D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\..\\data\\processed\\features_daily.parquet\nRows: 4435, Date range: 2007-09-17 00:00:00 to 2025-10-15 00:00:00\nAdding contextual features...\nContextual features generated. Shape: (3117, 64)\nSaved contextual features to D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\..\\data\\processed\\features_context.parquet \u2014 rows: 3117\n",
+      "stderr": "",
+      "elapsed_sec": 9.060286283493042
+    },
+    {
+      "name": "predict_context",
+      "script": "D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\predict_context.py",
+      "ok": true,
+      "returncode": 0,
+      "stdout": "Using latest available data: 2025-09-28 00:00:00\n\n=== Next-Day Market Prediction ===\nData up to: 2025-09-28 00:00:00\nPrediction Date: 2025-10-15\n-> Trend: Down  (Prob Up: 0.485)\n-> Strength: Medium\nProbabilities: {'Weak': np.float64(0.248), 'Medium': np.float64(0.458), 'Strong': np.float64(0.294)}\n\n[OK] Prediction saved to: D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\..\\artifacts\\prediction_context_2025-10-15.json\n",
+      "stderr": "",
+      "elapsed_sec": 5.006314992904663
+    }
+  ],
+  "final": {
+    "latest_features_date": "2025-09-28",
+    "days_behind_calendar": 17,
+    "freshness_warning": "\u26a0\ufe0f WARNING: features are 17 days behind today. Consider re-running update/features; predictions may be stale.",
+    "prediction_json": "D:\\GitHub\\Nifty Trend and Strength Indicator\\artifacts\\prediction_context_2025-10-15.json",
+    "predict_stdout_snippet": "Using latest available data: 2025-09-28 00:00:00\n\n=== Next-Day Market Prediction ===\nData up to: 2025-09-28 00:00:00\nPrediction Date: 2025-10-15\n-> Trend: Down  (Prob Up: 0.485)\n-> Strength: Medium\nProbabilities: {'Weak': np.float64(0.248), 'Medium': np.float64(0.458), 'Strong': np.float64(0.294)}\n\n[OK] Prediction saved to: D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\..\\artifacts\\prediction_context_2025-10-15.json\n",
+    "prediction_date": "2025-10-15",
+    "log_path": "D:\\GitHub\\Nifty Trend and Strength Indicator\\logs\\run_forecast_cycle_20251015_130803_utc.log"
+  },
+  "run_duration_sec": 18.557428
+}

@@ -1,0 +1,12 @@
+{
+  "date": "2025-10-15",
+  "latest_data_date": "2025-09-28 00:00:00",
+  "predicted_trend": "Down",
+  "prob_up": 0.485,
+  "predicted_strength": "Medium",
+  "strength_probabilities": {
+    "Weak": 0.248,
+    "Medium": 0.458,
+    "Strong": 0.294
+  }
+}

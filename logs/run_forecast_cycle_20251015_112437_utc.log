@@ -1,0 +1,76 @@
+=== RUNNING update_data (update_data.py) ===
+
+STDOUT:
+Loaded existing data. Last available date: 2025-10-15
+Fetching new data from 2025-10-16 to 2025-10-16 ...
+No new data available.
+
+
+STDERR:
+$^NSEI: possibly delisted; no price data found  (1d 2025-10-16 -> 2025-10-16) (Yahoo error = "Data doesn't exist for startDate = 1760553000, endDate = 1760553000")
+
+
+
+=== RUNNING features (features.py) ===
+
+STDOUT:
+Reading raw CSV: D:\GitHub\Nifty Trend and Strength Indicator\src\..\data\raw\nifty_daily.csv
+Total rows read: 4435
+Date range: 2007-09-17 00:00:00 to 2025-10-15 00:00:00
+Features saved to D:\GitHub\Nifty Trend and Strength Indicator\src\..\data\processed\features_daily.parquet — rows: 4435
+Prediction-safe features saved to D:\GitHub\Nifty Trend and Strength Indicator\src\..\data\processed\features_safe.parquet — rows: 4435
+
+
+STDERR:
+
+
+
+=== RUNNING features_context (features_context.py) ===
+
+STDOUT:
+Reading base features: D:\GitHub\Nifty Trend and Strength Indicator\src\..\data\processed\features_daily.parquet
+Rows: 4435, Date range: 2007-09-17 00:00:00 to 2025-10-15 00:00:00
+Adding contextual features...
+Contextual features generated. Shape: (3117, 64)
+Saved contextual features to D:\GitHub\Nifty Trend and Strength Indicator\src\..\data\processed\features_context.parquet — rows: 3117
+
+
+STDERR:
+
+
+
+Latest features date (from features_context.parquet): 2025-09-28 (days behind: 17)
+
+⚠️ WARNING: features are 17 days behind today. Consider re-running update/features; predictions may be stale.
+
+
+=== RUNNING predict_context (predict_context.py) ===
+
+STDOUT:
+Using latest available data: 2025-09-28 00:00:00
+
+=== Next-Day Market Prediction ===
+Data up to: 2025-09-28 00:00:00
+Prediction Date: 2025-10-15
+
+
+STDERR:
+Traceback (most recent call last):
+  File "D:\GitHub\Nifty Trend and Strength Indicator\src\predict_context.py", line 85, in <module>
+    print(f"\u2192 Trend: {signal['predicted_trend']}  (Prob Up: {signal['prob_up']})")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ramana.kv\AppData\Local\Programs\Python\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2192' in position 0: character maps to <undefined>
+
+
+
+=== EXCEPTION ===
+
+predict_context failed (see logs). aborting.
+
+Traceback (most recent call last):
+  File "D:\GitHub\Nifty Trend and Strength Indicator\src\run_forecast_cycle.py", line 222, in main
+    raise RuntimeError(f"{name} failed (see logs). aborting.")
+RuntimeError: predict_context failed (see logs). aborting.

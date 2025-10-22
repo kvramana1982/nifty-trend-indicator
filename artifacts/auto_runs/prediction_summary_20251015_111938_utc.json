@@ -1,0 +1,18 @@
+{
+  "run_ts_utc": "2025-10-15T11:19:38.399555",
+  "steps": [
+    {
+      "name": "update_data",
+      "script": "D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\update_data.py",
+      "ok": false,
+      "returncode": 1,
+      "stdout": "Loaded existing data. Last available date: 2025-10-14\nFetching new data from 2025-10-15 to 2025-10-16 ...\nUpdated dataset saved to D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\..\\data\\raw\\nifty_daily.csv\n",
+      "stderr": "Traceback (most recent call last):\n  File \"D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\update_data.py\", line 99, in <module>\n    main()\n    ~~~~^^\n  File \"D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\update_data.py\", line 96, in main\n    print(f\"Now covering: {min(df_all['timestamp'])} \\u2192 {max(df_all['timestamp'])}\")\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\ramana.kv\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\u2192' in position 25: character maps to <undefined>\n",
+      "elapsed_sec": 7.145436525344849
+    }
+  ],
+  "final": {
+    "error": "update_data failed (see logs). aborting.",
+    "log_path": "D:\\GitHub\\Nifty Trend and Strength Indicator\\logs\\run_forecast_cycle_20251015_111938_utc.log"
+  }
+}

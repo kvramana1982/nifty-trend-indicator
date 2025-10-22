@@ -1,0 +1,31 @@
+=== RUNNING update_data (update_data.py) ===
+
+STDOUT:
+Loaded existing data. Last available date: 2025-10-14
+Fetching new data from 2025-10-15 to 2025-10-16 ...
+Updated dataset saved to D:\GitHub\Nifty Trend and Strength Indicator\src\..\data\raw\nifty_daily.csv
+
+
+STDERR:
+Traceback (most recent call last):
+  File "D:\GitHub\Nifty Trend and Strength Indicator\src\update_data.py", line 99, in <module>
+    main()
+    ~~~~^^
+  File "D:\GitHub\Nifty Trend and Strength Indicator\src\update_data.py", line 96, in main
+    print(f"Now covering: {min(df_all['timestamp'])} \u2192 {max(df_all['timestamp'])}")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ramana.kv\AppData\Local\Programs\Python\Python313\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2192' in position 25: character maps to <undefined>
+
+
+
+=== EXCEPTION ===
+
+update_data failed (see logs). aborting.
+
+Traceback (most recent call last):
+  File "D:\GitHub\Nifty Trend and Strength Indicator\src\run_forecast_cycle.py", line 169, in main
+    raise RuntimeError(f"{name} failed (see logs). aborting.")
+RuntimeError: update_data failed (see logs). aborting.

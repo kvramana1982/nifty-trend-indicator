@@ -1,0 +1,48 @@
+{
+  "run_ts_utc": "2025-10-15T12:58:06.605883",
+  "steps": [
+    {
+      "name": "update_data",
+      "script": "D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\update_data.py",
+      "ok": true,
+      "returncode": 0,
+      "stdout": "Loaded existing data. Last available date: 2025-10-15\nFetching new data from 2025-10-16 to 2025-10-16 ...\nNo new data available.\n",
+      "stderr": "$^NSEI: possibly delisted; no price data found  (1d 2025-10-16 -> 2025-10-16) (Yahoo error = \"Data doesn't exist for startDate = 1760553000, endDate = 1760553000\")\n",
+      "elapsed_sec": 5.228148698806763
+    },
+    {
+      "name": "features",
+      "script": "D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\features.py",
+      "ok": true,
+      "returncode": 0,
+      "stdout": "Reading raw CSV: D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\..\\data\\raw\\nifty_daily.csv\nTotal rows read: 4435\nDate range: 2007-09-17 00:00:00 to 2025-10-15 00:00:00\nFeatures saved to D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\..\\data\\processed\\features_daily.parquet \u2014 rows: 4435\nPrediction-safe features saved to D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\..\\data\\processed\\features_safe.parquet \u2014 rows: 4435\n",
+      "stderr": "",
+      "elapsed_sec": 1.7454075813293457
+    },
+    {
+      "name": "features_context",
+      "script": "D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\features_context.py",
+      "ok": true,
+      "returncode": 0,
+      "stdout": "Reading base features: D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\..\\data\\processed\\features_daily.parquet\nRows: 4435, Date range: 2007-09-17 00:00:00 to 2025-10-15 00:00:00\nAdding contextual features...\nContextual features generated. Shape: (3117, 64)\nSaved contextual features to D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\..\\data\\processed\\features_context.parquet \u2014 rows: 3117\n",
+      "stderr": "",
+      "elapsed_sec": 16.988988161087036
+    },
+    {
+      "name": "predict_context",
+      "script": "D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\predict_context.py",
+      "ok": false,
+      "returncode": 1,
+      "stdout": "Using latest available data: 2025-09-28 00:00:00\n\n=== Next-Day Market Prediction ===\nData up to: 2025-09-28 00:00:00\nPrediction Date: 2025-10-15\n-> Trend: Down  (Prob Up: 0.485)\n-> Strength: Medium\nProbabilities: {'Weak': np.float64(0.248), 'Medium': np.float64(0.458), 'Strong': np.float64(0.294)}\n",
+      "stderr": "Traceback (most recent call last):\n  File \"D:\\GitHub\\Nifty Trend and Strength Indicator\\src\\predict_context.py\", line 100, in <module>\n    print(f\"\\n\\u2705 Prediction saved to: {out_path}\")\n    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\ramana.kv\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\encodings\\cp1252.py\", line 19, in encode\n    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\n           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeEncodeError: 'charmap' codec can't encode character '\\u2705' in position 2: character maps to <undefined>\n",
+      "elapsed_sec": 5.855788707733154
+    }
+  ],
+  "final": {
+    "latest_features_date": "2025-09-28",
+    "days_behind_calendar": 17,
+    "freshness_warning": "\u26a0\ufe0f WARNING: features are 17 days behind today. Consider re-running update/features; predictions may be stale.",
+    "error": "predict_context failed (see logs). aborting.",
+    "log_path": "D:\\GitHub\\Nifty Trend and Strength Indicator\\logs\\run_forecast_cycle_20251015_125806_utc.log"
+  }
+}

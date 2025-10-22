@@ -1,0 +1,26 @@
+{
+  "version": "2.1",
+  "date": "2025-10-18",
+  "latest_data_date": "2025-09-28 00:00:00",
+  "predicted_trend": "Sideways",
+  "prob_up": 0.485,
+  "prob_down": 0.515,
+  "confidence_score": 0.03,
+  "predicted_strength": "Medium",
+  "strength_probabilities": {
+    "Weak": 0.248,
+    "Medium": 0.458,
+    "Strong": 0.294
+  },
+  "forecast_cycle_version": "2.3",
+  "script_versions": {
+    "update_data.py": "8",
+    "features.py": "5",
+    "features_context.py": "2",
+    "labeling.py": "1",
+    "train_context.py": "2.1",
+    "predict_context.py": "2.1",
+    "run_forecast_cycle.py": "2.3"
+  },
+  "generated_at": "2025-10-18 14:20:29"
+}
